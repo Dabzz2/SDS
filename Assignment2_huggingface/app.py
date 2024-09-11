@@ -131,10 +131,14 @@ selected1 = st.multiselect("Select variable1", ['loan_amount', 'term_in_months',
 st.markdown('Pick what statistic to inspect')
 selected2 = st.multiselect("Select statistic(s)", ['mean', 'var', 'min', 'median', 'max', 'sum', 'std'])
 
-if selected1 and selected2:
-    st.table(data.groupby(['borrower_genders', 'sector'])[selected1].agg(selected2))
+st.markdown('Pick borrower genders to include')
+selected_genders = st.multiselect("Select borrower genders", ['male', 'female'])
+
+if selected1 and selected2 and selected_genders:
+    filtered_data = data[data['borrower_genders'].isin(selected_genders)]
+    st.table(filtered_data.groupby(['borrower_genders', 'sector'])[selected1].agg(selected2))
 else:
-    st.write("Please select at least one variable and one statistic.")
+    st.write("Please select at least one variable, one statistic, and at least one gender.")
 
 
 

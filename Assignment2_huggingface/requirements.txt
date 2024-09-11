@@ -1,0 +1,12 @@
+requests
+zipfile
+io
+pandas 
+numpy
+matplotlib
+seaborn
+os
+altair
+streamlit
+statsmodels.formula.api
+duckduckgo_search
