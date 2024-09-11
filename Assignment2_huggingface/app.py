@@ -11,8 +11,17 @@ import streamlit as st
 import statsmodels.formula.api as smf
 from duckduckgo_search import DDGS
 
-st.title("Assignment 2: Bla bla bla")        
-st.text("""We have the following research question that we aim to 
+st.title("Assignment 2: Bla bla bla")    
+
+
+st.markdown("""
+**Kiva** is a non-profit organization that facilitates microfinancing for entrepreneurs and small businesses in low-income communities around the world. By providing a platform where individuals can lend small amounts of money to borrowers in developing regions, Kiva aims to expand financial inclusion and foster economic development.
+
+The dataset in question encompasses a broad range of variables related to Kiva loans. It includes information on the gender of the borrowers, the amounts of the loans, the number of lenders participating in each loan, and the duration of the loans. This comprehensive dataset allows us to conduct an in-depth analysis of various dimensions of Kiva’s microfinance operations. By examining these variables, we can explore patterns and trends in borrowing behavior, loan distribution, and the impact of microfinance on different demographic groups and regions.
+""")
+
+
+st.markdown("""We have the following research question that we aim to 
         investigate and attempt to answer: 
         Do men borrow more money than women?""")    
 
@@ -93,7 +102,7 @@ valid_genders = ['male', 'female']
 data = data[data['borrower_genders'].isin(valid_genders)]
 
 st.subheader("""Cleaning data""")
-st.text("""We have eliminated the column tags, as well as the associated tags, 
+st.markdown("""We have eliminated the column tags, as well as the associated tags, 
         since they merely consisted of quotations such as “User favorite,” 
         among others. Additionally, these columns contained a 
         significant amount of missing data (NAs).""")   
@@ -106,19 +115,26 @@ st.text(f'Number of remaining {len(data)} rows')
 st.subheader("Basic statistics for key variables")
 st.dataframe(data[['loan_amount','term_in_months','lender_count']].agg(['mean','var','min','median','max','sum']))
 
-#Laver en forklaring med chatgpt herpå til
+st.markdown("""How to interpret the data?""")
+results_stat = DDGS().chat(
+    "You are an extremely good statician with lots of knowledge about statistics. "
+    "Interpret the following statistic results: " + str(data[['loan_amount','term_in_months','lender_count']].agg(['mean','var','min','median','max','sum'])) +" summarize the results in a easy understanding way and with normal text",
+    model='gpt-4o-mini') 
+st.markdown(results_stat)
 
 
-st.subheader("Statistics for key variables based on gender and sector")
-
-st.text('Pick what to group by')
-selected1 = st.selectbox("Select variable1",['loan_amount','term_in_months','lender_count'])
-
-st.text('Pick what statistic to inspect')
-selected2 = st.selectbox("Select variable2",['mean','var','min','median','max','sum','std'])
 
 
-st.table(data.groupby(['borrower_genders','sector'])[selected1].agg(selected2))
+st.markdown('Pick what to group by')
+selected1 = st.multiselect("Select variable1", ['loan_amount', 'term_in_months', 'lender_count'])
+
+st.markdown('Pick what statistic to inspect')
+selected2 = st.multiselect("Select statistic(s)", ['mean', 'var', 'min', 'median', 'max', 'sum', 'std'])
+
+if selected1 and selected2:
+    st.table(data.groupby(['borrower_genders', 'sector'])[selected1].agg(selected2))
+else:
+    st.write("Please select at least one variable and one statistic.")
 
 
 
@@ -198,4 +214,4 @@ results = DDGS().chat(
     "Interpret the following OLS results: " + str(model.summary()) + 
     ". Specifically, answer if men borrow more money than women.",
     model='gpt-4o-mini')
-st.write(results)
+st.markdown(results)
