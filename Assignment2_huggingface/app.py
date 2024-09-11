@@ -11,7 +11,7 @@ import streamlit as st
 import statsmodels.formula.api as smf
 from duckduckgo_search import DDGS
 
-st.title("Assignment 2: Bla bla bla")    
+st.title("Assignment 2: Building a Data Dashboard with Streamlit")    
 
 
 st.markdown("""
