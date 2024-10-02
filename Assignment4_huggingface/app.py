@@ -79,8 +79,8 @@ if st.button('Predict loan amount 🚀'):
     
     st.markdown("""
     This plot shows how each feature contributes to the predicted price:
-    - Blue bars push the price lower
-    - Red bars push the price higher
+    - Blue bars push the loan amount lower
+    - Red bars push the loan amount higher
     - The length of each bar indicates the strength of the feature's impact
     """)
 
