@@ -1,0 +1,9 @@
+requests==2.32.2
+pandas==2.2.2
+numpy==1.26.4
+matplotlib==3.8.4
+seaborn==0.13.2
+altair==5.0.1
+streamlit==1.32.0
+statsmodels==0.14.2
+duckduckgo_search==6.2.11
